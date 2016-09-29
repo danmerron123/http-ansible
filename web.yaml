@@ -1,0 +1,15 @@
+- hosts: web
+  sudo: yes
+
+  tasks:
+    - name: install apache
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: Update httpd index.html
+      template: src=templates/index.html
+          dest=/var/www/index.html
+          backup=yes
+
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
